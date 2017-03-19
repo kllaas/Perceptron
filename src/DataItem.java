@@ -9,17 +9,7 @@ public class DataItem {
 
     private int dataType;
 
-    public DataItem(ArrayList<Double> params, int dataType) {
-        this.params = params;
-        this.dataType = dataType;
-    }
-
-    public DataItem(ArrayList<Double> params) {
-        this.params = params;
-    }
-
     public DataItem() {
-
     }
 
     public ArrayList<Double> getParams() {

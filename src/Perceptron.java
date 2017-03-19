@@ -12,6 +12,10 @@ public class Perceptron {
     // activation threshold
     private double threshold;
 
+    public double[] getWeights() {
+        return weights;
+    }
+
     public void train(ArrayList<DataItem> dataSet, double threshold, double learningRate, int epoch, double epsilon) {
         this.threshold = threshold;
 
@@ -19,38 +23,46 @@ public class Perceptron {
             return;
 
         int paramsCount = dataSet.get(0).getParams().size();
-        int size = dataSet.size();
 
         initWeight(paramsCount);
 
-        for (int i = 0; i < epoch; i++) {
-            int totalError = 0;
+        System.out.println("Learning process...");
 
-            for (int j = 0; j < size; j++) {
-                int output = output(dataSet.get(j));
-                int error = dataSet.get(j).getDataType() - output;
+        System.out.printf("Starting weight: w1 = %f, w2 = %f\n", weights[0], weights[1]);
+
+        for (int i = 0; i < epoch; i++) {
+            double totalError = 0;
+
+            for (DataItem item : dataSet) {
+                double output = output(item);
+                double error = item.getDataType() - output;
 
                 for (int k = 0; k < paramsCount; k++) {
-                    double delta = learningRate * dataSet.get(j).getParams().get(k) * error;
+                    double delta = learningRate * item.getParams().get(k) * error;
                     weights[k] += delta;
                 }
 
-                totalError += error;
+                totalError += Math.abs(error);
             }
 
-            if (totalError <= epsilon)
+            System.out.printf("Epoch: %d\n", i + 1);
+            System.out.printf("Weight: w1 = %f, w2 = %f\n", weights[0], weights[1]);
+            System.out.printf("Total error: %f\n", totalError);
+
+            if (Math.abs(totalError) <= epsilon)
                 break;
         }
 
+        System.out.println("Learning process end.");
     }
 
     private void initWeight(int paramsCount) {
         weights = new double[paramsCount];
 
-        Random r = new Random();
+        Random random = new Random();
 
         for (int i = 0; i < paramsCount; i++) {
-            weights[i] = r.nextDouble();
+            weights[i] = random.nextDouble();
         }
     }
 

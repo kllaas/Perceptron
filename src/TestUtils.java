@@ -15,13 +15,18 @@ public class TestUtils {
         for (int i = 0; i < data.size(); i++) {
             output = perceptron.output(data.get(i));
 
-            if (output == data.get(i).getDataType())
-                summ++;
+            System.out.printf("%d/%d :", i + 1, data.size());
 
-            System.out.printf("%d/%d - expected: %d, found: %d\n", i, data.size(), output, data.get(i).getDataType());
+            if (output == data.get(i).getDataType()) {
+                summ++;
+                System.out.println(")");
+            } else {
+                System.out.printf("( expected: %d, found: %d\n", data.get(i).getDataType(), output);
+            }
+
         }
 
-        System.out.printf("\nCorrectly: %1.02f%%", (double) summ / data.size() * 100);
+        System.out.printf("\nCorrectly: %1.02f%%\n", (double) summ / data.size() * 100);
+        System.out.printf("Weight: w1 = %f, w2 = %f\n", perceptron.getWeights()[0], perceptron.getWeights()[1]);
     }
-
 }
